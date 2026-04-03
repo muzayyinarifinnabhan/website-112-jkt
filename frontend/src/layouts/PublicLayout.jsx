@@ -121,7 +121,7 @@ export default function PublicLayout() {
     <div className="min-h-screen flex flex-col font-sans relative">
       
       {/* Topbar yang Responsif */}
-      <div className="bg-primary-800 text-white text-[10px] md:text-xs py-2 px-4 shadow-inner relative z-10">
+      <div className="bg-primary-800 text-white text-[10px] md:text-xs py-2 px-4 relative z-20">
         <div className="container mx-auto flex justify-between items-center">
           <div className="flex gap-3 md:gap-4">
             {/* Alamat disingkat di mobile agar muat */}
@@ -150,19 +150,28 @@ export default function PublicLayout() {
         </div>
       </div>
 
-      <header className={`sticky top-0 transition-all duration-300 ${mobileMenuOpen ? 'z-[10000]' : 'z-50'} ${isScrolled ? 'bg-white shadow-lg py-3' : 'bg-white/95 backdrop-blur-md shadow-sm py-4 border-b border-gray-100'}`}>
-        <div className="container mx-auto px-4 flex justify-between items-center">
+      <header className={`sticky top-0 transition-all duration-500 cubic-bezier(0.16, 1, 0.3, 1) border-b ${mobileMenuOpen ? 'z-[10000]' : 'z-50'} ${isScrolled ? 'bg-white shadow-xl h-16 border-transparent' : 'bg-white/95 backdrop-blur-md shadow-sm h-20 border-gray-100'}`}>
+        <div className="container mx-auto px-4 h-full flex justify-between items-center transition-all duration-500 cubic-bezier(0.16, 1, 0.3, 1)">
 
           <Link 
             to="/" 
-            className="flex items-center gap-3 z-50 group tracking-tight"
+            className="flex items-center gap-3 z-50 group tracking-tight transition-all duration-500 cubic-bezier(0.16, 1, 0.3, 1) transform-gpu origin-left will-change-transform"
+            style={{ 
+              transform: isScrolled ? 'scale(0.85)' : 'scale(1)',
+              backfaceVisibility: 'hidden',
+              WebkitFontSmoothing: 'antialiased'
+            }}
           >
-            <div className="transition-transform duration-300 group-hover:scale-110">
-              <img src="/logo.png" alt="Logo" className="h-12 w-auto" />
+            <div className="flex-shrink-0 transition-transform duration-500 cubic-bezier(0.16, 1, 0.3, 1) group-hover:scale-105 transform-gpu" style={{ perspective: '1px' }}>
+              <img 
+                src="/logo.png" 
+                alt="Logo" 
+                className="h-12 w-auto transform-gpu" 
+              />
             </div>
-            <div>
-              <div className="text-2xl font-black tracking-tight leading-none text-primary-700">SMPN 112</div>
-              <div className="text-xs font-semibold tracking-widest uppercase text-gray-500">Jakarta</div>
+            <div className="flex flex-col transform-gpu" style={{ backfaceVisibility: 'hidden', perspective: '1px' }}>
+              <div className="font-black tracking-tight leading-none text-primary-700 text-2xl" style={{ backfaceVisibility: 'hidden' }}>SMPN 112</div>
+              <div className="font-semibold tracking-widest uppercase text-gray-500 text-xs text-nowrap" style={{ backfaceVisibility: 'hidden' }}>Jakarta</div>
             </div>
           </Link>
 
@@ -208,11 +217,13 @@ export default function PublicLayout() {
 
           <div className="flex items-center gap-2 lg:hidden relative z-[1001]">
             <button
-              className={`p-2 ${mobileMenuOpen ? 'text-primary-600 bg-primary-50' : 'text-gray-800'} rounded-lg transition-all duration-300 shadow-sm`}
+              className={`p-2 rounded-xl border border-transparent ${mobileMenuOpen ? 'bg-primary-50 text-primary-600' : 'text-gray-800'}`}
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               aria-label="Toggle Menu"
             >
-              {mobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
+              <div className="flex items-center justify-center">
+                {mobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
+              </div>
             </button>
           </div>
         </div>
@@ -327,8 +338,8 @@ export default function PublicLayout() {
         </div>
       </footer>
 
-      <div className={`fixed inset-0 bg-white/95 backdrop-blur-2xl z-[9999] transition-all duration-700 cubic-bezier(0.16, 1, 0.3, 1) lg:hidden overflow-y-auto ${mobileMenuOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
-        <div className={`flex flex-col items-center justify-start min-h-full space-y-6 text-xl font-bold p-8 pt-32 pb-12 transition-all duration-700 cubic-bezier(0.16, 1, 0.3, 1) ${mobileMenuOpen ? 'translate-y-0 opacity-100 scale-100' : '-translate-y-12 opacity-0 scale-95'}`}>
+      <div className={`fixed inset-0 bg-white/95 backdrop-blur-2xl z-[9999] transition-all duration-500 cubic-bezier(0.16, 1, 0.3, 1) lg:hidden overflow-y-auto ${mobileMenuOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
+        <div className={`flex flex-col items-center justify-start min-h-full space-y-6 text-xl font-bold p-8 pt-32 pb-12 transition-all duration-500 cubic-bezier(0.16, 1, 0.3, 1) ${mobileMenuOpen ? 'translate-y-0 opacity-100 scale-100 blur-0' : '-translate-y-4 opacity-0 scale-95 blur-sm'}`}>
           {menus.map((m) => (
             <div key={m.name} className="w-full max-w-xs group">
               {m.submenu ? (
