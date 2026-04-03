@@ -150,8 +150,8 @@ export default function PublicLayout() {
         </div>
       </div>
 
-      <header className={`sticky top-0 transition-all duration-500 cubic-bezier(0.16, 1, 0.3, 1) border-b ${mobileMenuOpen ? 'z-[10000]' : 'z-50'} ${isScrolled ? 'bg-white shadow-xl h-16 border-transparent' : 'bg-white/95 backdrop-blur-md shadow-sm h-20 border-gray-100'}`}>
-        <div className="container mx-auto px-4 h-full flex justify-between items-center transition-all duration-500 cubic-bezier(0.16, 1, 0.3, 1)">
+      <header className={`sticky top-0 transition-all duration-500 cubic-bezier(0.16, 1, 0.3, 1) border-b h-20 ${mobileMenuOpen ? 'z-[10000]' : 'z-50'} ${isScrolled ? 'bg-white shadow-xl border-transparent' : 'bg-white/95 backdrop-blur-md shadow-sm border-gray-100'}`}>
+        <div className="container mx-auto px-4 h-full flex justify-between items-center">
 
           <Link 
             to="/" 
