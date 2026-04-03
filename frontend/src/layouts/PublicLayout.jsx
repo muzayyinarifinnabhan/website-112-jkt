@@ -118,10 +118,10 @@ export default function PublicLayout() {
   const isHome = location.pathname === '/'
 
   return (
-    <div className="min-h-screen flex flex-col font-sans">
-
+    <div className="min-h-screen flex flex-col font-sans relative">
+      
       {/* Topbar yang Responsif */}
-      <div className="bg-primary-800 text-white text-[10px] md:text-xs py-2 px-4 shadow-inner">
+      <div className="bg-primary-800 text-white text-[10px] md:text-xs py-2 px-4 shadow-inner relative z-10">
         <div className="container mx-auto flex justify-between items-center">
           <div className="flex gap-3 md:gap-4">
             {/* Alamat disingkat di mobile agar muat */}
@@ -150,10 +150,13 @@ export default function PublicLayout() {
         </div>
       </div>
 
-      <header className={`sticky top-0 z-50 transition-all duration-300 ${isScrolled ? 'bg-white shadow-lg py-3' : 'bg-white/95 backdrop-blur-md shadow-sm py-4 border-b border-gray-100'}`}>
+      <header className={`sticky top-0 transition-all duration-300 ${mobileMenuOpen ? 'z-[10000]' : 'z-50'} ${isScrolled ? 'bg-white shadow-lg py-3' : 'bg-white/95 backdrop-blur-md shadow-sm py-4 border-b border-gray-100'}`}>
         <div className="container mx-auto px-4 flex justify-between items-center">
 
-          <Link to="/" className="flex items-center gap-3 z-50 group">
+          <Link 
+            to="/" 
+            className="flex items-center gap-3 z-50 group tracking-tight"
+          >
             <div className="transition-transform duration-300 group-hover:scale-110">
               <img src="/logo.png" alt="Logo" className="h-12 w-auto" />
             </div>
@@ -203,10 +206,9 @@ export default function PublicLayout() {
             ))}
           </nav>
 
-          {/* Mobile Menu Toggle & Actions */}
-          <div className="flex items-center gap-2 lg:hidden z-50">
+          <div className="flex items-center gap-2 lg:hidden relative z-[1001]">
             <button
-              className={`p-2 text-gray-800 rounded-lg focus:bg-gray-100 hover:bg-gray-100 transition-colors duration-300`}
+              className={`p-2 ${mobileMenuOpen ? 'text-primary-600 bg-primary-50' : 'text-gray-800'} rounded-lg transition-all duration-300 shadow-sm`}
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               aria-label="Toggle Menu"
             >
@@ -214,49 +216,9 @@ export default function PublicLayout() {
             </button>
           </div>
         </div>
-
-        {/* Mobile Nav Overlay */}
-        <div className={`fixed inset-0 bg-white/95 backdrop-blur-md z-40 transition-all duration-400 ease-in-out lg:hidden overflow-y-auto ${mobileMenuOpen ? 'opacity-100 visible translate-y-0' : 'opacity-0 invisible -translate-y-8'}`}>
-          <div className="flex flex-col items-center justify-start min-h-full space-y-4 text-xl font-bold p-8 pt-24 pb-12">
-            {menus.map(m => (
-              <div key={m.name} className="w-full max-w-xs">
-                {m.submenu ? (
-                  <div className="w-full flex flex-col">
-                    <button
-                      onClick={() => setExpandedMobileMenu(expandedMobileMenu === m.name ? '' : m.name)}
-                      className={`flex items-center gap-3 w-full justify-between p-3 rounded-xl transition-colors ${location.pathname.startsWith(m.path) ? 'text-primary-600 bg-primary-50' : 'text-gray-800 hover:bg-gray-50'}`}
-                    >
-                      <div className="flex items-center gap-3">
-                        <m.icon className="w-6 h-6" /> {m.name}
-                      </div>
-                      <ChevronDown className={`w-5 h-5 transition-transform duration-300 ${expandedMobileMenu === m.name ? 'rotate-180' : ''}`} />
-                    </button>
-                    {/* Expandable Content Area */}
-                    <div className={`overflow-hidden transition-all duration-300 ease-in-out ${expandedMobileMenu === m.name ? 'max-h-[500px] opacity-100 mt-2' : 'max-h-0 opacity-0'}`}>
-                      <div className="flex flex-col gap-2 pl-4 py-2 border-l-2 border-primary-200 ml-4">
-                        {m.submenu.map(sub => (
-                          <Link
-                            key={sub.name}
-                            to={sub.path}
-                            onClick={() => setMobileMenuOpen(false)}
-                            className="flex items-center gap-3 p-2 rounded-lg text-base font-medium text-gray-600 hover:text-primary-600 hover:bg-primary-50 transition-colors"
-                          >
-                            <sub.icon className="w-5 h-5" /> {sub.name}
-                          </Link>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                ) : (
-                  <Link to={m.path} onClick={() => setMobileMenuOpen(false)} className={`flex items-center gap-3 w-full p-3 rounded-xl transition-colors ${location.pathname === m.path ? 'text-primary-600 bg-primary-50' : 'text-gray-800 hover:bg-gray-50'}`}>
-                    <m.icon className="w-6 h-6" /> {m.name}
-                  </Link>
-                )}
-              </div>
-            ))}
-          </div>
-        </div>
       </header>
+
+
 
       <main className="flex-grow">
         <Outlet context={{ contact }} />
@@ -364,6 +326,50 @@ export default function PublicLayout() {
           </p>
         </div>
       </footer>
+
+      <div className={`fixed inset-0 bg-white/95 backdrop-blur-2xl z-[9999] transition-all duration-700 cubic-bezier(0.16, 1, 0.3, 1) lg:hidden overflow-y-auto ${mobileMenuOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
+        <div className={`flex flex-col items-center justify-start min-h-full space-y-6 text-xl font-bold p-8 pt-32 pb-12 transition-all duration-700 cubic-bezier(0.16, 1, 0.3, 1) ${mobileMenuOpen ? 'translate-y-0 opacity-100 scale-100' : '-translate-y-12 opacity-0 scale-95'}`}>
+          {menus.map((m) => (
+            <div key={m.name} className="w-full max-w-xs group">
+              {m.submenu ? (
+                <div className="w-full flex flex-col">
+                  <button
+                    onClick={() => setExpandedMobileMenu(expandedMobileMenu === m.name ? '' : m.name)}
+                    className={`flex items-center gap-3 w-full justify-between p-4 rounded-2xl transition-all ${location.pathname.startsWith(m.path) ? 'text-primary-600 bg-primary-50 shadow-sm' : 'text-gray-800 active:bg-gray-100'}`}
+                  >
+                    <div className="flex items-center gap-3">
+                      <m.icon className="w-6 h-6" /> {m.name}
+                    </div>
+                    <ChevronDown className={`w-5 h-5 transition-transform duration-300 ${expandedMobileMenu === m.name ? 'rotate-180' : ''}`} />
+                  </button>
+                  <div className={`overflow-hidden transition-all duration-300 ${expandedMobileMenu === m.name ? 'max-h-[500px] opacity-100 mt-2' : 'max-h-0 opacity-0'}`}>
+                    <div className="flex flex-col gap-2 pl-4 py-2 border-l-2 border-primary-100 ml-5">
+                      {m.submenu.map(sub => (
+                        <Link
+                          key={sub.name}
+                          to={sub.path}
+                          onClick={() => setMobileMenuOpen(false)}
+                          className={`flex items-center gap-3 p-3 rounded-xl text-base font-semibold transition-all ${location.pathname === sub.path ? 'text-primary-600 bg-primary-50' : 'text-gray-500 active:bg-gray-50'}`}
+                        >
+                          <sub.icon className="w-5 h-5" /> {sub.name}
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <Link 
+                  to={m.path} 
+                  onClick={() => setMobileMenuOpen(false)} 
+                  className={`flex items-center gap-3 w-full p-4 rounded-2xl transition-all ${location.pathname === m.path ? 'text-primary-600 bg-primary-50 shadow-sm' : 'text-gray-800 active:bg-gray-100'}`}
+                >
+                  <m.icon className="w-6 h-6" /> {m.name}
+                </Link>
+              )}
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   )
 }
