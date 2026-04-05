@@ -41,8 +41,8 @@ export default function KJP() {
       <div className="bg-white rounded-3xl shadow-xl overflow-hidden border border-gray-100 flex flex-col h-full animate-in slide-in-from-bottom duration-700">
         {/* Card Header */}
         <div className={`${bgLight} p-6 border-b border-gray-100 flex items-center justify-center gap-4`}>
-           <div className={`p-2 ${bgMain} text-white rounded-lg`}>
-              <MainIcon size={24} />
+           <div className={`p-2 ${bgMain} rounded-xl shadow-sm`}>
+              <img src="/logo.png" alt="Logo" className="h-8 w-8 object-contain brightness-0 invert" />
            </div>
            <h2 className={`text-2xl font-black ${color} uppercase tracking-tight`}>{title}</h2>
         </div>
@@ -115,8 +115,10 @@ export default function KJP() {
 
          {/* Hero Content */}
          <div className="relative z-10 text-center px-4 max-w-4xl animate-in zoom-in-95 duration-700">
-            <div className="w-20 h-20 md:w-24 md:h-24 bg-white/10 backdrop-blur-md border border-white/20 rounded-3xl flex items-center justify-center mx-auto mb-8 shadow-2xl">
-               <Info className="text-white w-10 h-10 md:w-12 md:h-12" />
+            <div className="mb-8 flex justify-center scale-110">
+               <div className="bg-white/10 backdrop-blur-md p-4 rounded-3xl border border-white/20 shadow-2xl">
+                  <img src="/logo.png" alt="Logo SMPN 112" className="h-16 w-16 md:h-20 md:w-20 object-contain" />
+               </div>
             </div>
             <h1 className="text-4xl md:text-6xl font-black text-white uppercase tracking-tighter mb-4">
                {content?.title || 'KJP / PIP'}
